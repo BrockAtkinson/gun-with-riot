@@ -1,0 +1,28 @@
+{
+  "name": "gun-with-riot",
+  "description": "riot + gun",
+  "author": "Brock Atkinson",
+  "version": "0.1.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/brockatkinson/gun-with-riot"
+  },
+  "scripts": {
+    "start": "brunch watch --server",
+    "build": "brunch build --production"
+  },
+  "devDependencies": {
+    "auto-reload-brunch": "^2.7.1",
+    "clean-css-brunch": "^2.0.0",
+    "gzip-brunch": "^1.3.0",
+    "pugjs-brunch": "^2.10.0",
+    "riot-brunch": "0.0.4",
+    "uglify-js-brunch": "^2.0.1",
+    "version-brunch": "^1.0.1"
+  },
+  "dependencies": {
+    "gun": "^0.7.2",
+    "riot": "^3.4.2"
+  }
+}

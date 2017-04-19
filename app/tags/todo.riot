@@ -1,0 +1,117 @@
+app
+  p this is a list
+  list
+
+list
+  ul
+    li(each='{ todo, index in todos }')
+      item(index='{ index }' title='{ todo.title }' len='{ todos.length }')
+    li.create
+      form(onsubmit='{ create }')
+        label new task
+          input(type='text' ref='title' onchange='{ input }')
+        input(if='{ text }' type='submit' value='create')
+
+  script.
+    'use strict';
+    var tag = this;
+    tag.input = input;
+    tag.create = create;
+    tag.rename = rename;
+    tag.remove = remove;
+
+    tag.todos = [];
+    var scope = opts.scope || 'todos';
+
+    const pistol = require('scripts/pistol')(scope);
+
+    tag.on('mount', init);
+
+    function init() {
+      pistol
+        .map()
+          .val(insert);
+    }
+
+    function insert(todo, id) {
+      // console.log('id', id, todo);
+      if (todo) {
+        // console.log('todo', todo, id);
+        tag
+          .todos
+            .push({ 'title': todo.title, 'id': id });
+        tag.update();
+      }
+    }
+
+    function input(e) {
+      tag.text = e.target.value;
+    }
+
+    function create(e) {
+      e.preventDefault();
+      pistol.set({ 'title': tag.refs.title.value });
+      tag.text = tag.refs.title.value = '';
+    }
+
+    function rename(e) {
+      var value = e.target.value;
+      tag.todos[e.item.index] = value;
+      pistol
+        .path(e.item.todo.id)
+          .put({ 'title': value });
+    }
+
+    function remove(e) {
+      tag.todos.splice(e.item.index, 1);
+      pistol
+        .path(e.item.todo.id)
+          .put(null);
+    }
+
+item
+  span
+    | { opts.index }. { title }
+  reveal(text='edit' alt='x')
+    label rename
+      input(type='text' placeholder='rename' value='{ parent.title }' onchange='{ parent.rename }')
+    reveal(text='delete' alt='cancel')
+      span are you sure?
+      input(type='button' value='confirm delete' onclick='{ parent.parent.del }')
+
+  script.
+    'use strict';
+    var tag = this;
+    tag.del = del;
+    tag.rename = rename;
+
+    tag.title = opts.title || '';
+
+    function rename(e) {
+      tag.title = e.target.value;
+      tag.parent.rename(e);
+      tag.update();
+    }
+
+    function del(e) {
+      tag.parent.remove(e);
+      tag.parent.update();
+    }
+
+reveal
+  input(type='button' value='{ opts.text || "?" }' onclick='{ reveal }')
+  virtual(if='{ show }')
+    yield/
+
+  script.
+    'use strict';
+    const tag = this;
+    tag.reveal = reveal;
+    tag.show = false;
+
+    function reveal(e) {
+      tag.show = !tag.show;
+      tag.show ?
+        e.target.value = opts.alt || 'x' :
+        e.target.value = opts.text || '?';
+    }
