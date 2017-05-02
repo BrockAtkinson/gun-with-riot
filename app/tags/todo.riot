@@ -58,14 +58,14 @@ list
       var value = e.target.value;
       tag.todos[e.item.index] = value;
       pistol
-        .path(e.item.todo.id)
+        .go(e.item.todo.id)
           .put({ 'title': value });
     }
 
     function remove(e) {
       tag.todos.splice(e.item.index, 1);
       pistol
-        .path(e.item.todo.id)
+        .go(e.item.todo.id)
           .put(null);
     }
 

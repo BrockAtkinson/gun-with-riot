@@ -2,11 +2,11 @@
   "name": "gun-with-riot",
   "description": "riot + gun",
   "author": "Brock Atkinson",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/brockatkinson/gun-with-riot"
+    "url": "https://github.com/brockatkinson/gun-with-riot"
   },
   "scripts": {
     "start": "brunch watch --server",
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "gun": "^0.7.2",
+    "gungo": "^0.1.0",
     "riot": "^3.4.2"
   }
 }
