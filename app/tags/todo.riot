@@ -110,7 +110,10 @@ reveal
     tag.show = false;
 
     function reveal(e) {
+
       tag.show = !tag.show;
+      tag.update();
+
       tag.show ?
         e.target.value = opts.alt || 'x' :
         e.target.value = opts.text || '?';
